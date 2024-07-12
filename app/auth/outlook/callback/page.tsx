@@ -32,7 +32,10 @@ export default function Home() {
 
       let path =
         "https://graph.microsoft.com/v1.0/me/messages?$top=500&$select=from,toRecipients";
-      const count: any = {};
+
+      const sent: any = {};
+      const recieved: any = {};
+      const name: any = {};
 
       while (path) {
         const graphResponse = await fetch(path, {
@@ -43,36 +46,46 @@ export default function Home() {
 
         graphResponse.value.forEach((d: any) => {
           let email = "";
+
           if (d.from.emailAddress.address === userDetails.mail) {
             email = d.toRecipients[0].emailAddress.address;
+            if (email) {
+              name[email] = d.toRecipients[0].emailAddress.name;
+            }
+            sent[email] = (sent[email] ?? 0) + 1;
+            recieved[email] = recieved[email] ?? 0;
           } else if (
             d.toRecipients[0].emailAddress.address === userDetails.mail
           ) {
             email = d.from.emailAddress.address;
-          }
-          if (email) {
-            count[email] = (count[email] ?? 0) + 1;
+            if (email) {
+              name[email] = d.from.emailAddress.name;
+            }
+            sent[email] = sent[email] ?? 0;
+            recieved[email] = (recieved[email] ?? 0) + 1;
           }
         });
 
-        console.log(graphResponse)
+        console.log(graphResponse);
 
         path = graphResponse["@odata.nextLink"];
       }
 
-      generateCSV(count, userDetails.mail);
+      generateCSV(sent, recieved, name, userDetails.mail);
     } catch (err) {
       console.error("Error fetching emails:", err);
       setLoading(false);
     }
   };
 
-  const generateCSV = (count: any, userEmail: any) => {
-    const csvRows = ["Email, Count"];
-    Object.keys(count)
-      .sort((email1, email2) => count[email2] - count[email1])
+  const generateCSV = (sent: any, recieved: any, name: any, userEmail: any) => {
+    const csvRows = ["Email, Name, Sent, Recived"];
+    Object.keys(sent)
+      .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
-        csvRows.push(`${email},${count[email]}`);
+        csvRows.push(
+          `${email},${name[email]},${sent[email]},${recieved[email]}`
+        );
       });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });

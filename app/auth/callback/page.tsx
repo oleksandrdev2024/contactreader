@@ -84,13 +84,12 @@ export default function Home() {
           .value
       );
       if (to.email === mGmail) {
-        count[from.email] = (count[from.email] ?? 0) + 1;
-        sent[from.email] = (sent[from.email] ?? 0) + 1;
-        recieved[from.email] = recieved[from.email] ?? 0;
+        sent[from.email] = sent[from.email] ?? 0;
+        recieved[from.email] = (recieved[from.email] ?? 0) + 1;
         name[from.email] = from.name;
       } else if (from.email === mGmail) {
-        sent[to.email] = sent[to.email] ?? 0;
-        recieved[to.email] = (recieved[to.email] ?? 0) + 1;
+        sent[to.email] = (sent[to.email] ?? 0) + 1;
+        recieved[to.email] = recieved[to.email] ?? 0;
         if (!name[to.email]) {
           name[to.email] = "";
         }
@@ -100,13 +99,13 @@ export default function Home() {
     generateCSV(sent, recieved, name, mGmail);
   };
 
-  const generateCSV = (sent: any, recieved: any, name:any, userEmail: any) => {
+  const generateCSV = (sent: any, recieved: any, name: any, userEmail: any) => {
     const csvRows = ["Email, Name, Sent, Recived"];
     Object.keys(sent)
       .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
         csvRows.push(
-          `${email},${sent[email]},${recieved[email]},${name[email]}`
+          `${email},${name[email]},${sent[email]},${recieved[email]}`
         );
       });
 
