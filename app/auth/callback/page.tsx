@@ -23,7 +23,7 @@ export default function Home() {
     });
 
     // The email address is contained in the emailAddress property of the response data.
-    mGmail = (await response.json()).data.emailAddress ?? "";
+    mGmail = (await response.json()).emailAddress ?? "";
 
     const apiBase = "https://www.googleapis.com/gmail/v1/users/me/messages";
     let allEmails: any[] = [];
