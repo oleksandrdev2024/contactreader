@@ -96,25 +96,28 @@ export default function Home() {
     console.log(details);
     details.map((data) => {
       if (!data) return;
-      const from = extractEmail(
-        data.payload.headers.filter((header: any) => header.name === "From")[0]
-          .value
-      );
-      const to = extractEmail(
-        data.payload.headers.filter((header: any) => header.name === "To")[0]
-          .value
-      );
-      if (to.email === mGmail) {
-        sent[from.email] = sent[from.email] ?? 0;
-        recieved[from.email] = (recieved[from.email] ?? 0) + 1;
-        name[from.email] = from.name;
-      } else if (from.email === mGmail) {
-        sent[to.email] = (sent[to.email] ?? 0) + 1;
-        recieved[to.email] = recieved[to.email] ?? 0;
-        if (!name[to.email]) {
-          name[to.email] = "";
+      try {
+        const from = extractEmail(
+          data.payload.headers.filter(
+            (header: any) => header.name === "From"
+          )[0].value
+        );
+        const to = extractEmail(
+          data.payload.headers.filter((header: any) => header.name === "To")[0]
+            .value
+        );
+        if (to.email === mGmail) {
+          sent[from.email] = sent[from.email] ?? 0;
+          recieved[from.email] = (recieved[from.email] ?? 0) + 1;
+          name[from.email] = from.name;
+        } else if (from.email === mGmail) {
+          sent[to.email] = (sent[to.email] ?? 0) + 1;
+          recieved[to.email] = recieved[to.email] ?? 0;
+          if (!name[to.email]) {
+            name[to.email] = "";
+          }
         }
-      }
+      } catch (e) {}
     });
 
     generateCSV(sent, recieved, name, mGmail);
