@@ -25,19 +25,20 @@ export default function Home() {
     // Now fetch details for each email
     const details = await Promise.all(
       allEmails.map(async (email) => {
-        const response = await fetch(
-          `${apiBase}/${email.id}?access_token=${token}`
-        );
-        const detailData = await response.json();
-        return detailData;
+        try {
+          const response = await fetch(
+            `${apiBase}/${email.id}?access_token=${token}`
+          );
+          const detailData = await response.json();
+          return detailData;
+        } catch (e) {}
       })
     );
 
     console.log("Email details:", details);
     // Add further processing or state updates here
 
-    console.log(details)
-
+    console.log(details);
   };
 
   useEffect(() => {
