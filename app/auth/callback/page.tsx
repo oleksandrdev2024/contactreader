@@ -67,9 +67,7 @@ export default function Home() {
     for (let emailChunk of chunkedEmails) {
       const chunkDetails = await Promise.all(
         emailChunk.map(async (email: any) => {
-          let count = 3;
-          while (count > 0) {
-            count--;
+          while (true) {
             try {
               const response = await fetch(
                 `${apiBase}/${email.id}?access_token=${token}`
@@ -84,7 +82,6 @@ export default function Home() {
               console.error(e);
             }
           }
-          return null;
         })
       );
       details.push(...chunkDetails); // Flatten the array as we insert elements
