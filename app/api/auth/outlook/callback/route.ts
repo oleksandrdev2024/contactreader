@@ -1,4 +1,4 @@
-export async function GET(req) {
+export async function GET(req:Request) {
   if (!req) {
     throw new Error("Request object is undefined");
   }
