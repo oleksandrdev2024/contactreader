@@ -11,7 +11,7 @@ export async function POST(req: Request): Promise<Response> {
 			}
 		})).json();
 
-		let path = 'https://graph.microsoft.com/v1.0/me/messages?$top=500&$select=sender,toRecipients';
+		let path = 'https://graph.microsoft.com/v1.0/me/messages?$top=500&$select=from,toRecipients';
 
 		const csvRows: any[] = []
 
@@ -27,8 +27,6 @@ export async function POST(req: Request): Promise<Response> {
 			})).json();
 
 			const data: any = graphResponse.value;
-
-			console.log(data);
 
 			data.map((d: any) => {
 				if (d.from.emailAddress.address === mOutlook.mail) {
