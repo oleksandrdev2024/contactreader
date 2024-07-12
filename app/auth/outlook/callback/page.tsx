@@ -23,7 +23,8 @@ export default function Home() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      window.location.href = "http://localhost:3000";
+      window.location.href =
+        process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
     }
   };
 
