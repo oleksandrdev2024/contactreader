@@ -11,7 +11,7 @@ export async function POST(req: Request): Promise<Response> {
 			}
 		})).json();
 
-		let path = 'https://graph.microsoft.com/v1.0/me/messages?top=500';
+		let path = 'https://graph.microsoft.com/v1.0/me/messages?$top=500&$select=sender,toRecipients';
 
 		const csvRows: any[] = []
 
