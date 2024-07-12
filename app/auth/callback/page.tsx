@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [accessToken, setAccessToken] = useState("");
   const [readEmailCount, setReadEmailCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   const extractEmail = (text: string) => {
     let name = "";
@@ -50,6 +51,7 @@ export default function Home() {
       const data = await response.json();
       allEmails = [...allEmails, ...data.messages];
       pageToken = data.nextPageToken;
+      setTotalCount(allEmails.length);
     } while (pageToken);
 
     // Now fetch details for each email
@@ -162,7 +164,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
       <div className="w-[300px] flex justify-center gap-2 text-white">
-        <p> {`Loading Emails... ${readEmailCount}`}</p>
+        <p> {`Loading Emails... ${readEmailCount}/${totalCount}`}</p>
       </div>
     </main>
   );
