@@ -27,6 +27,9 @@ export async function POST(req: Request): Promise<Response> {
 			})).json();
 
 			const data: any = graphResponse.value;
+
+			console.log(data);
+
 			data.map((d: any) => {
 				if (d.from.emailAddress.address === mOutlook.mail) {
 					count[d.toRecipients[0].emailAddress.address] = (count[d.toRecipients[0].emailAddress.address] ?? 0) + 1
