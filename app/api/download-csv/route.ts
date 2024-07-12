@@ -49,16 +49,22 @@ export async function POST(req: Request): Promise<Response> {
 
 			// Fetch detailed information for each message
 			const promises = messages.messages.map(async (message: any) => {
-				const { data: email } = await gmail.users.messages.get({
-					userId: 'me',
-					id: message.id,
-				});
+				while (true) {
+					try {
+						const { data: email } = await gmail.users.messages.get({
+							userId: 'me',
+							id: message.id,
+						});
 
-				return {
-					id: message.id,
-					threadId: message.threadId,
-					email
-				};
+						return {
+							id: message.id,
+							threadId: message.threadId,
+							email
+						};
+					} catch (e) {
+
+					}
+				}
 			});
 
 			// Wait for all detailed information requests to complete
