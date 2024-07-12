@@ -56,10 +56,10 @@ export default function Home() {
     const count: any = {};
     details.map((data) => {
       const from = extractEmail(
-        data.payload.headers.filter((header: any) => header.name === "From")[0]
+        data.payload.headers.filter((header: any) => header.name === "From")[0].value
       );
       const to = extractEmail(
-        data.payload.headers.filter((header: any) => header.name === "To")[0]
+        data.payload.headers.filter((header: any) => header.name === "To")[0].value
       );
       if (from === mGmail) {
         count[to] = (count[to] ?? 0) + 1;
