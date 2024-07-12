@@ -54,6 +54,7 @@ export default function Home() {
     );
 
     const count: any = {};
+    console.log(details)
     details.map((data) => {
       const from = extractEmail(
         data.payload.headers.filter((header: any) => header.name === "From")[0].value
