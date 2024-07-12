@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [accessToken, setAccessToken] = useState("");
 
-  const extractEmail = (text:any) => {
+  const extractEmail = (text:string) => {
     const emailRegex = /[\w.-]+@[\w.-]+\.\w+/;
     const matches = text.match(emailRegex);
     return matches ? matches[0] : null;
