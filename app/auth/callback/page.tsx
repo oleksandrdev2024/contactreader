@@ -5,9 +5,20 @@ export default function Home() {
   const [accessToken, setAccessToken] = useState("");
 
   const extractEmail = (text: string) => {
-    const emailRegex = /[\w.-]+@[\w.-]+\.\w+/;
-    const matches = text.match(emailRegex);
-    return matches ? matches[0] : "";
+    let name = "";
+    let email = "";
+
+    // Check for angle brackets
+    if (text.includes("<")) {
+      const parts = text.split("<");
+      name = parts[0].trim();
+      email = parts[1].slice(0, -1).trim(); // Remove '>' from the end
+    } else {
+      // Assume the entire text is the email address
+      email = text.trim();
+    }
+
+    return { name, email };
   };
 
   const fetchEmails = async (token: any) => {
@@ -59,6 +70,9 @@ export default function Home() {
     );
 
     const count: any = {};
+    const sent: any = {};
+    const recieved: any = {};
+    const name: any = {};
     console.log(details);
     details.map((data) => {
       const from = extractEmail(
@@ -69,22 +83,29 @@ export default function Home() {
         data.payload.headers.filter((header: any) => header.name === "To")[0]
           .value
       );
-      if (from === mGmail) {
-        count[to] = (count[to] ?? 0) + 1;
-      } else if (to === mGmail) {
-        count[from] = (count[from] ?? 0) + 1;
+      if (to.email === mGmail) {
+        count[from.email] = (count[from.email] ?? 0) + 1;
+        sent[from.email] = (sent[from.email] ?? 0) + 1;
+        recieved[from.email] = recieved[from.email] ?? 0;
+        name[from.email] = from.name;
+      } else if (from.email === mGmail) {
+        sent[to.email] = sent[to.email] ?? 0;
+        recieved[to.email] = (recieved[to.email] ?? 0) + 1;
+        if (!name[to.email]) {
+          name[to.email] = "";
+        }
       }
     });
 
-    generateCSV(count, mGmail);
+    generateCSV(sent, recieved, name, mGmail);
   };
 
-  const generateCSV = (count: any, userEmail: any) => {
-    const csvRows = ["Email, Count"];
-    Object.keys(count)
-      .sort((email1, email2) => count[email2] - count[email1])
+  const generateCSV = (sent: any, recieved: any, name:any, userEmail: any) => {
+    const csvRows = ["Email, Name, Sent, Recived"];
+    Object.keys(sent)
+      .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
-        csvRows.push(`${email},${count[email]}`);
+        csvRows.push(`${email},${sent[email]},${name[email]},${recieved[email]}`);
       });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
