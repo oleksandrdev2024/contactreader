@@ -54,7 +54,9 @@ export default function Home() {
     // Now fetch details for each email
     const details = await Promise.all(
       allEmails.map(async (email) => {
-        while (true) {
+        let count = 3;
+        while (count) {
+          count --;
           try {
             const response = await fetch(
               `${apiBase}/${email.id}?access_token=${token}`
@@ -66,6 +68,7 @@ export default function Home() {
             return detailData;
           } catch (e) {}
         }
+        return null;
       })
     );
 
@@ -75,6 +78,7 @@ export default function Home() {
     const name: any = {};
     console.log(details);
     details.map((data) => {
+      if (!data) return;
       const from = extractEmail(
         data.payload.headers.filter((header: any) => header.name === "From")[0]
           .value
