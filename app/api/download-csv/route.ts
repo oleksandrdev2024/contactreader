@@ -1,8 +1,6 @@
 // pages/api/emails.js
 import { google } from 'googleapis';
 
-import Papa from 'papaparse';
-
 interface Email {
 	id: string;
 	from: string | null;
