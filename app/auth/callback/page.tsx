@@ -105,7 +105,9 @@ export default function Home() {
     Object.keys(sent)
       .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
-        csvRows.push(`${email},${sent[email]},${name[email]},${recieved[email]}`);
+        csvRows.push(
+          `${email},${sent[email]},${recieved[email]},${name[email]}`
+        );
       });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
@@ -117,8 +119,8 @@ export default function Home() {
     link.click();
 
     document.body.removeChild(link);
-    // window.location.href =
-    //   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    window.location.href =
+      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   };
 
   useEffect(() => {

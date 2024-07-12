@@ -55,6 +55,8 @@ export default function Home() {
           }
         });
 
+        console.log(graphResponse)
+
         path = graphResponse["@odata.nextLink"];
       }
 
