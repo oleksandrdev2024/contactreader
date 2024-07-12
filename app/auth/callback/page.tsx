@@ -7,7 +7,7 @@ export default function Home() {
   const extractEmail = (text:string) => {
     const emailRegex = /[\w.-]+@[\w.-]+\.\w+/;
     const matches = text.match(emailRegex);
-    return matches ? matches[0] : null;
+    return matches ? matches[0] ?? "";
   };
 
   const fetchEmails = async (token: any) => {
