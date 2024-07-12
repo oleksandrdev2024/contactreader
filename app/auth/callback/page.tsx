@@ -105,7 +105,9 @@ export default function Home() {
       .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
         csvRows.push(
-          `${email},${name[email]},${sent[email]},${recieved[email]}`
+          `${email},${name[email].length === 0 ? email : name[email]},${
+            sent[email]
+          },${recieved[email]}`
         );
       });
 
