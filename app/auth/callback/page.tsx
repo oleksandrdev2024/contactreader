@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [accessToken, setAccessToken] = useState("");
+  const [readEmailCount, setReadEmailCount] = useState(0);
 
   const extractEmail = (text: string) => {
     let name = "";
@@ -85,6 +86,7 @@ export default function Home() {
         })
       );
       details.push(...chunkDetails); // Flatten the array as we insert elements
+      setReadEmailCount(details.length);
     }
 
     const count: any = {};
@@ -157,7 +159,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
       <div className="w-[200px] flex justify-center gap-2 text-white">
-        <p>Loading Emails...</p>
+        <p>Loading Emails... {}</p>
       </div>
     </main>
   );
