@@ -45,7 +45,7 @@ export default function Home() {
     const token = urlParams.get("accessToken");
     if (token) {
       setAccessToken(token);
-      if (accessToken !== "") {
+      if (accessToken === "") {
         fetchEmails(token);
       }
     }
