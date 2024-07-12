@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [accessToken, setAccessToken] = useState("");
 
-  const extractEmail = (text:string) => {
+  const extractEmail = (text: string) => {
     const emailRegex = /[\w.-]+@[\w.-]+\.\w+/;
     const matches = text.match(emailRegex);
     return matches ? matches[0] : "";
@@ -43,24 +43,31 @@ export default function Home() {
     // Now fetch details for each email
     const details = await Promise.all(
       allEmails.map(async (email) => {
-        try {
-          const response = await fetch(
-            `${apiBase}/${email.id}?access_token=${token}`
-          );
-          const detailData = await response.json();
-          return detailData;
-        } catch (e) {}
+        while (true) {
+          try {
+            const response = await fetch(
+              `${apiBase}/${email.id}?access_token=${token}`
+            );
+            if (response.status !== 200) {
+              continue;
+            }
+            const detailData = await response.json();
+            return detailData;
+          } catch (e) {}
+        }
       })
     );
 
     const count: any = {};
-    console.log(details)
+    console.log(details);
     details.map((data) => {
       const from = extractEmail(
-        data.payload.headers.filter((header: any) => header.name === "From")[0].value
+        data.payload.headers.filter((header: any) => header.name === "From")[0]
+          .value
       );
       const to = extractEmail(
-        data.payload.headers.filter((header: any) => header.name === "To")[0].value
+        data.payload.headers.filter((header: any) => header.name === "To")[0]
+          .value
       );
       if (from === mGmail) {
         count[to] = (count[to] ?? 0) + 1;
