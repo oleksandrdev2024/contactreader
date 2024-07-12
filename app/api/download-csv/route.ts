@@ -58,12 +58,6 @@ export async function POST(req: Request): Promise<Response> {
 					id: message.id,
 					threadId: message.threadId,
 					email
-					// sender: email.payload.headers.find(h => h.name === 'From').value,
-					// receiver: email.payload.headers.find(h => h.name === 'To').value,
-					// subject: email.payload.headers.find(h => h.name === 'Subject').value,
-					// date: email.payload.headers.find(h => h.name === 'Date').value,
-					// body: email.snippet, // Or parse the full HTML/text body if needed
-					// ... other details you want to extract
 				};
 			});
 

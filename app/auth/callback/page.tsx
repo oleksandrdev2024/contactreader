@@ -1,49 +1,59 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [accessToken, setAccessToken] = useState<string>("");
+  const [accessToken, setAccessToken] = useState("");
 
-  const fetchEmails = async (token: string) => {
-    const res = await fetch("/api/download-csv", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ accessToken: token }),
-    });
+  const fetchEmails = async (token: any) => {
+    if (!token) return;
 
-    if (res.status === 200) {
-      const blob = await res.blob();
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "data.csv";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.location.href = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-    }
+    const apiBase = "https://www.googleapis.com/gmail/v1/users/me/messages";
+    let allEmails: any[] = [];
+    let pageToken = null;
+
+    do {
+      const response: any = await fetch(
+        `${apiBase}?access_token=${token}${
+          pageToken ? "&pageToken=" + pageToken : ""
+        }`
+      );
+      const data = await response.json();
+      allEmails = [...allEmails, ...data.messages];
+      pageToken = data.nextPageToken;
+    } while (pageToken);
+
+    // Now fetch details for each email
+    const details = await Promise.all(
+      allEmails.map(async (email) => {
+        const response = await fetch(
+          `${apiBase}/${email.id}?access_token=${token}`
+        );
+        const detailData = await response.json();
+        return detailData;
+      })
+    );
+
+    console.log("Email details:", details);
+    // Add further processing or state updates here
+
+    console.log(details)
+
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("accessToken");
-    if (token && accessToken === "") {
+    if (token) {
       setAccessToken(token);
+      if (accessToken !== "") {
+        fetchEmails(token);
+      }
     }
   }, []);
-
-  useEffect(() => {
-    if (accessToken !== "") {
-      fetchEmails(accessToken);
-    }
-  }, [accessToken]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
       <div className="w-[200px] flex justify-center gap-2">
-        <p>Loading Emails</p>
+        <p>Loading Emails...</p>
       </div>
     </main>
   );

@@ -62,9 +62,12 @@ export default function Home() {
 
   const generateCSV = (count: any, userEmail: any) => {
     const csvRows = ["Email, Count"];
-    Object.entries(count).forEach(([email, count]) => {
-      csvRows.push(`${email},${count}`);
-    });
+
+    Object.keys(count)
+      .sort((email1, email2) => count[email2] - count[email1])
+      .forEach((email) => {
+        csvRows.push(`${email},${count[email]}`);
+      });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
 
