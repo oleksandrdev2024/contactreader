@@ -103,7 +103,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
-      <div className="w-[200px] flex justify-center gap-2">
+      <div className="w-[200px] flex justify-center gap-2  text-white">
         {loading ? <p>Loading Emails...</p> : <p>Emails downloaded.</p>}
       </div>
     </main>

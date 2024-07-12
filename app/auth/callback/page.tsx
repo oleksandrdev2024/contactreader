@@ -52,25 +52,43 @@ export default function Home() {
     } while (pageToken);
 
     // Now fetch details for each email
-    const details = await Promise.all(
-      allEmails.map(async (email) => {
-        let count = 3;
-        while (count) {
-          count --;
-          try {
-            const response = await fetch(
-              `${apiBase}/${email.id}?access_token=${token}`
-            );
-            if (response.status !== 200) {
-              continue;
+    const chunkSize = 500;
+    const chunkedEmails = allEmails.reduce((result, email, index) => {
+      const chunkIndex = Math.floor(index / chunkSize);
+      if (!result[chunkIndex]) {
+        result[chunkIndex] = [];
+      }
+      result[chunkIndex].push(email);
+      return result;
+    }, []);
+
+    const details = [];
+
+    for (let emailChunk of chunkedEmails) {
+      const chunkDetails = await Promise.all(
+        emailChunk.map(async (email: any) => {
+          let count = 3;
+          while (count > 0) {
+            count--;
+            try {
+              const response = await fetch(
+                `${apiBase}/${email.id}?access_token=${token}`
+              );
+              if (response.status !== 200) {
+                continue;
+              }
+              const detailData = await response.json();
+              return detailData;
+            } catch (e) {
+              // Optionally handle errors, e.g. log them or react differently
+              console.error(e);
             }
-            const detailData = await response.json();
-            return detailData;
-          } catch (e) {}
-        }
-        return null;
-      })
-    );
+          }
+          return null;
+        })
+      );
+      details.push(...chunkDetails); // Flatten the array as we insert elements
+    }
 
     const count: any = {};
     const sent: any = {};
@@ -141,7 +159,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
-      <div className="w-[200px] flex justify-center gap-2">
+      <div className="w-[200px] flex justify-center gap-2 text-white">
         <p>Loading Emails...</p>
       </div>
     </main>
