@@ -4,8 +4,26 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [accessToken, setAccessToken] = useState("");
 
+  const extractEmail = (text) => {
+    const emailRegex = /[\w.-]+@[\w.-]+\.\w+/;
+    const matches = text.match(emailRegex);
+    return matches ? matches[0] : null;
+  };
+
   const fetchEmails = async (token: any) => {
     if (!token) return;
+
+    const url = "https://www.googleapis.com/gmail/v1/users/me/profile";
+
+    let mGmail = "";
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // The email address is contained in the emailAddress property of the response data.
+    mGmail = (await response.json()).data.emailAddress ?? "";
 
     const apiBase = "https://www.googleapis.com/gmail/v1/users/me/messages";
     let allEmails: any[] = [];
@@ -35,10 +53,41 @@ export default function Home() {
       })
     );
 
-    console.log("Email details:", details);
-    // Add further processing or state updates here
+    const count: any = {};
+    details.map((data) => {
+      const from = extractEmail(
+        data.payload.headers.filter((header: any) => header.name === "From")[0]
+      );
+      const to = extractEmail(
+        data.payload.headers.filter((header: any) => header.name === "To")[0]
+      );
+      if (from === mGmail) {
+        count[to] = (count[to] ?? 0) + 1;
+      } else if (to === mGmail) {
+        count[from] = (count[from] ?? 0) + 1;
+      }
+    });
 
-    console.log(details);
+    generateCSV(count, mGmail);
+  };
+
+  const generateCSV = (count: any, userEmail: any) => {
+    const csvRows = ["Email, Count"];
+    Object.entries(count).forEach(([email, count]) => {
+      csvRows.push(`${email},${count}`);
+    });
+
+    const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${userEmail}.csv`;
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    window.location.href =
+      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   };
 
   useEffect(() => {
