@@ -84,7 +84,7 @@ export default function Home() {
     Object.keys(count)
       .sort((email1, email2) => count[email2] - count[email1])
       .forEach((email) => {
-        csvRows.push(`${email},${count}`);
+        csvRows.push(`${email},${count[email]}`);
       });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
