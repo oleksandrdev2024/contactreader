@@ -11,7 +11,13 @@ export default function Home() {
     if (token) {
       setAccessToken(token);
       if (accessToken === "") {
-        fetchEmails(token);
+        try {
+          fetchEmails(token);
+        } catch {
+          alert("There was some errors while reading outlook emails");
+          window.location.href =
+            process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+        }
       }
     }
   }, []);
@@ -61,9 +67,11 @@ export default function Home() {
 
   const generateCSV = (count: any, userEmail: any) => {
     const csvRows = ["Email, Count"];
-    Object.entries(count).forEach(([email, count]) => {
-      csvRows.push(`${email},${count}`);
-    });
+    Object.keys(count)
+      .sort((email1, email2) => count[email2] - count[email1])
+      .forEach((email) => {
+        csvRows.push(`${email},${count}`);
+      });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
 
