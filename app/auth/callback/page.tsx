@@ -42,9 +42,27 @@ export default function Home() {
     let allEmails: any[] = [];
     let pageToken = null;
 
+    const formatDate = (date: any) => {
+      let year = date.getFullYear();
+      let month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based in JavaScript
+      let day = date.getDate().toString().padStart(2, "0");
+
+      return `${year}/${month}/${day}`;
+    };
+
+    let today = new Date();
+    let tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    let oneYearAgoTomorrow = new Date(tomorrow);
+    oneYearAgoTomorrow.setFullYear(tomorrow.getFullYear() - 1);
+
+    let formattedTomorrow = formatDate(tomorrow);
+    let formattedOneYearAgoTomorrow = formatDate(oneYearAgoTomorrow);
+
     do {
       const response: any = await fetch(
-        `${apiBase}?q=after:2024/06/15 before:2024/07/15&access_token=${token}${
+        `${apiBase}?q=after:${formattedOneYearAgoTomorrow} before:${formattedTomorrow}&access_token=${token}${
           pageToken ? "&pageToken=" + pageToken : ""
         }`
       );
@@ -91,7 +109,7 @@ export default function Home() {
       setReadEmailCount(details.length);
     }
 
-    console.log(details)
+    console.log(details);
 
     const count: any = {};
     const sent: any = {};
