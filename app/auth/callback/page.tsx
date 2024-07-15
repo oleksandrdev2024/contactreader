@@ -38,13 +38,13 @@ export default function Home() {
     // The email address is contained in the emailAddress property of the response data.
     mGmail = (await response.json()).emailAddress ?? "";
 
-    const apiBase = "https://www.googleapis.com/gmail/v1/users/me/messages?q=after:2024/06/15 before:2024/07/15";
+    const apiBase = "https://www.googleapis.com/gmail/v1/users/me/messages";
     let allEmails: any[] = [];
     let pageToken = null;
 
     do {
       const response: any = await fetch(
-        `${apiBase}?access_token=${token}${
+        `${apiBase}?q=after:2024/06/15 before:2024/07/15&access_token=${token}${
           pageToken ? "&pageToken=" + pageToken : ""
         }`
       );
