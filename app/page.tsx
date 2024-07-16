@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Home() {
   const readGmail = () => {
     // Make a GET request to the API endpoint
@@ -26,15 +28,48 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
-      <div className="w-[200px] flex justify-center gap-2">
-        <button
-          className="btn bg-blue-500 btn-danger"
-          onClick={readGmail}
-        >
-          Read Gmail
-        </button>
-        <button className="btn bg-green-500 btn-primary" onClick={readOutlook}>Read Outlook</button>
+    <main className="flex min-h-screen flex-col items-center p-24 bg-gray-200">
+      <div className="max-w-[1024px]">
+        <h1 className="text-gray-900 text-[30px] mb-2">
+          Welcome to Emaillist.VIP
+        </h1>
+        <p className="text-gray-900">
+          {`1) Emaillist.VIP exports your Very Important People (VIP) as an email list
+        (CSV format).`}
+          <br />
+          {`2) Connect your email inbox, by clicking a button below.`}
+          <br />{" "}
+          {`3) Wait
+        a few minutes and your VIP email list will automatically download: Names
+        & Email addresses.`}
+        </p>
+        <label className="text-[12px] text-gray-900 text-center">
+          This tool can’t read the content of your emails and keeps your email
+          addresses private. Depending on the size of your inbox, it may take
+          around 10 minutes to process and download.
+        </label>
+        <div className="w-[200px] flex justify-center gap-2 my-10">
+          <button className="" onClick={readGmail}>
+            <img src="/gmail.svg" />
+          </button>
+          <button className="" onClick={readOutlook}>
+            <img src="/outlook.svg" />
+          </button>
+        </div>
+        <p className="text-gray-900 ">
+          How is your VIP determined? Emaillist.vip does not read the content of
+          your emails; and ignores any addresses you haven’t replied to in 365
+          days (like newsletters, travel confirmations, coupons, etc.) The tool
+          then filters those you’ve both sent & received emails from. The top
+          matches are considered your Very Important People, according to your
+          emails. You can remove any email address from the resulting
+          spreadsheet without affecting your inbox.
+        </p>
+      </div>
+      <div className="fixed h-[50px] bg-gray-300 w-full bottom-0 flex justify-end items-center">
+        <Link className="text-gray-800 mr-4 hover:text-gray-600" href={""}>
+          Privacy
+        </Link>
       </div>
     </main>
   );
