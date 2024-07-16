@@ -584,25 +584,25 @@ export default function Privacy() {
 
           <h4>What is Data Processing?</h4>
           <p>
-            Our platform's main function is to share the recordings to social
+            Our platform`s main function is to share the recordings to social
             media. But to do that we add some more information to the video.
-            Like adding the <b>"End Screen Image"</b>, <b>"Title"</b> and{" "}
-            <b>"Captions"</b> to the video. This is what we call Data Processing
-            in our terms. We're not using any user's social account data in
-            processing. Our user's have an option to put the <b>"Title"</b>{" "}
-            &amp; <b>"End Screen Image"</b>. We also provide an option to
-            generate the <b>"Captions"</b> for the recording. So This is what we
+            Like adding the <b>End Screen Image</b>, <b>Title</b> and{" "}
+            <b>Captions</b> to the video. This is what we call Data Processing
+            in our terms. We`re not using any user`s social account data in
+            processing. Our user`s have an option to put the <b>Title</b>{" "}
+            &amp; <b>End Screen Image</b>. We also provide an option to
+            generate the <b>Captions</b> for the recording. So This is what we
             mean by Data Processing.
           </p>
 
-          <h4>How we're processing the Data.</h4>
+          <h4>How we`re processing the Data.</h4>
           <p>These are the steps</p>
           <ul>
             <li>
-              User's update their <b>"End Screen Image"</b>{" "}
+              User`s update their <b>End Screen Image</b>{" "}
             </li>
             <li>
-              User's add a <b>"Title"</b> &amp; generate the <b>"Captions"</b>{" "}
+              User`s add a <b>Title</b> &amp; generate the <b>Captions</b>{" "}
               of the recording.
             </li>
           </ul>
@@ -616,9 +616,9 @@ export default function Privacy() {
             etc.
           </p>
 
-          <h4>Are we saving user's Social Account data?</h4>
+          <h4>Are we saving user`s Social Account data?</h4>
           <p>
-            No, We're not saving any of the user's details. That's the
+            No, We`re not saving any of the user`s details. That`s the
             reason&nbsp;users have to authenticate us each time they want to
             post any video from our server to their social media accounts.
           </p>
@@ -626,7 +626,7 @@ export default function Privacy() {
           <h4>How can a user revoke their Facebook access token?</h4>
           <ul>
             <li>
-              First of all, we don't save access tokens, unless they allow us to
+              First of all, we don`t save access tokens, unless they allow us to
               keep posting the video after a certain time period, customized by
               the users.
             </li>
@@ -655,7 +655,7 @@ export default function Privacy() {
                   <img src="https://brander.video/assets/images/vs-fb-access.png" />
                 </li>
                 <li>
-                  User's can click on the <strong>Remove</strong> button to
+                  User`s can click on the <strong>Remove</strong> button to
                   revoke access.
                 </li>
               </ol>
