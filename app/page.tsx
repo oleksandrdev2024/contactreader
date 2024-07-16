@@ -5,13 +5,13 @@ import Link from "next/link";
 export default function Home() {
   const readGmail = () => {
     // Make a GET request to the API endpoint
-    fetch('/api/get-redirect-url').then((response) => {
+    fetch("/api/get-redirect-url").then((response) => {
       response.json().then((data) => {
         if (data.url) {
           // Redirect to the URL returned by the API
           window.location.href = data.url;
         }
-      })
+      });
     });
   };
 
@@ -25,7 +25,7 @@ export default function Home() {
         }
       });
     });
-  }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24 bg-gray-200">
@@ -57,17 +57,27 @@ export default function Home() {
           </button>
         </div>
         <p className="text-gray-900 ">
-          How is your VIP determined? Emaillist.vip does not read the content of
+          {`How is your VIP determined?`}
+          <br />
+          {`1) Emaillist.vip does not read the content of
           your emails; and ignores any addresses you haven’t replied to in 365
-          days (like newsletters, travel confirmations, coupons, etc.) The tool
-          then filters those you’ve both sent & received emails from. The top
-          matches are considered your Very Important People, according to your
-          emails. You can remove any email address from the resulting
-          spreadsheet without affecting your inbox.
+          days (like newsletters, travel confirmations, coupons, etc.)`}
+          <br />
+          {`2) The tool then filters those you’ve both sent & received emails from.`}
+          <br />
+          {`3) The top matches are considered your Very Important People, according to your
+          emails.`}
+          <br />
+          {`4) You can remove any email address from the resulting
+          spreadsheet without affecting your inbox.`}
+          <br />
         </p>
       </div>
       <div className="fixed h-[50px] bg-gray-300 w-full bottom-0 flex justify-end items-center">
-        <Link className="text-gray-800 mr-4 hover:text-gray-600" href={"/privacy"}>
+        <Link
+          className="text-gray-800 mr-4 hover:text-gray-600"
+          href={"/privacy"}
+        >
           Privacy
         </Link>
       </div>
