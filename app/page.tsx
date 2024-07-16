@@ -67,7 +67,7 @@ export default function Home() {
         </p>
       </div>
       <div className="fixed h-[50px] bg-gray-300 w-full bottom-0 flex justify-end items-center">
-        <Link className="text-gray-800 mr-4 hover:text-gray-600" href={""}>
+        <Link className="text-gray-800 mr-4 hover:text-gray-600" href={"/privacy"}>
           Privacy
         </Link>
       </div>
