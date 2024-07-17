@@ -79,13 +79,13 @@ export default function Home() {
   };
 
   const generateCSV = (sent: any, recieved: any, name: any, userEmail: any) => {
-    const csvRows = ["Email, Name, Sent, Recived"];
+    const csvRows = ["Name, Email, Sent, Recived"];
     Object.keys(sent)
       .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
         if (sent[email] >= 1 && recieved[email] >= 1) {
           csvRows.push(
-            `${email},${name[email]},${sent[email]},${recieved[email]}`
+            `${name[email]},${email},${sent[email]},${recieved[email]}`
           );
         }
       });

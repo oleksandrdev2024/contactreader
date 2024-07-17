@@ -73,7 +73,10 @@ export default function Home() {
           <br />
         </p>
       </div>
-      <div className="fixed h-[50px] bg-gray-300 w-full bottom-0 flex justify-end items-center">
+      <div className="fixed h-[50px] bg-gray-300 w-full bottom-0 flex justify-between items-center">
+        <p className="text-gray-800 ml-4 hover:text-gray-600">
+          © Practice Marketing, Inc. | Videosocials@practicemarketinginc.com
+        </p>
         <Link
           className="text-gray-800 mr-4 hover:text-gray-600"
           href={"/privacy"}
