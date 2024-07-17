@@ -83,9 +83,11 @@ export default function Home() {
     Object.keys(sent)
       .sort((email1, email2) => sent[email2] - sent[email1])
       .forEach((email) => {
-        csvRows.push(
-          `${email},${name[email]},${sent[email]},${recieved[email]}`
-        );
+        if (sent[email] >= 1 && recieved[email] >= 1) {
+          csvRows.push(
+            `${email},${name[email]},${sent[email]},${recieved[email]}`
+          );
+        }
       });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
