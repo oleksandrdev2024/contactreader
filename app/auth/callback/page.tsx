@@ -183,7 +183,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
+    <main className="flex min-h-screen items-center justify-center p-24 bg-gray-900">
       <div className="w-[300px] flex justify-center gap-2 text-white">
         <p>
           When Emaillist.VIP processing completes, a CSV file will automatically
