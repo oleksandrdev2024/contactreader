@@ -185,7 +185,17 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
       <div className="w-[300px] flex justify-center gap-2 text-white">
-        <p> {`Loading Emails... ${readEmailCount}/${totalCount}`}</p>
+        <p>
+          When Emaillist.VIP processing completes, a CSV file will automatically
+          download (check the top right of your browser or Downloads folder).
+          <b>
+            This can take around 15 minutes, depending on how many emails you
+            have. Please keep this browser tab open, and your computer on.
+          </b>{" "}
+          You’ll then be returned to the homepage to connect another inbox.
+        </p>
+        <p>{`Counting your emails for 365 days (NOTE: it’s not reading the content of your emails): ${totalCount}`}</p>
+        <p>{`Searching for replies to those who sent you emails, and filtering your top VIP contacts: ${readEmailCount}`}</p>
       </div>
     </main>
   );

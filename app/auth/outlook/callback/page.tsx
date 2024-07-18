@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 export default function Home() {
   const [accessToken, setAccessToken] = useState("");
   const [loading, setLoading] = useState(true);
+  const [readEmailCount, setReadEmailCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -54,6 +56,8 @@ export default function Home() {
             }
             sent[email] = (sent[email] ?? 0) + 1;
             recieved[email] = recieved[email] ?? 0;
+            setReadEmailCount(readEmailCount + 1);
+            setTotalCount(totalCount + 1);
           } else if (
             d.toRecipients[0].emailAddress.address === userDetails.mail
           ) {
@@ -63,10 +67,10 @@ export default function Home() {
             }
             sent[email] = sent[email] ?? 0;
             recieved[email] = (recieved[email] ?? 0) + 1;
+            setReadEmailCount(readEmailCount + 1);
+            setTotalCount(totalCount + 1);
           }
         });
-
-        console.log(graphResponse);
 
         path = graphResponse["@odata.nextLink"];
       }
@@ -105,8 +109,18 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-900">
-      <div className="w-[200px] flex justify-center gap-2  text-white">
-        {loading ? <p>Loading Emails...</p> : <p>Emails downloaded.</p>}
+      <div className="w-[300px] flex justify-center gap-2 text-white">
+        <p>
+          When Emaillist.VIP processing completes, a CSV file will automatically
+          download (check the top right of your browser or Downloads folder).
+          <b>
+            This can take around 15 minutes, depending on how many emails you
+            have. Please keep this browser tab open, and your computer on.
+          </b>{" "}
+          You’ll then be returned to the homepage to connect another inbox.
+        </p>
+        <p>{`Counting your emails for 365 days (NOTE: it’s not reading the content of your emails): ${totalCount}`}</p>
+        <p>{`Searching for replies to those who sent you emails, and filtering your top VIP contacts: ${readEmailCount}`}</p>
       </div>
     </main>
   );
