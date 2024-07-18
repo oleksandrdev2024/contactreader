@@ -184,7 +184,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen items-center justify-center p-24 bg-gray-900">
-      <div className="w-max-[600px] flex-col justify-center gap-2 text-white">
+      <div className="max-w-[600px] flex-col justify-center gap-2 text-white">
         <p>
           When Emaillist.VIP processing completes, a CSV file will automatically
           download (check the top right of your browser or Downloads folder).
